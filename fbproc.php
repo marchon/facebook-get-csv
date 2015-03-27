@@ -1,6 +1,8 @@
 <?php
 
 use Respect\Validation\Validator as v;
+use Goodby\CSV\Export\Standard\Exporter;
+use Goodby\CSV\Export\Standard\ExporterConfig;
 
 require_once "vendor/autoload.php";
 
@@ -65,7 +67,28 @@ function getGraphUrl($url) {
     return $graphURL;
 }
 
-error_reporting(0);
+/**
+ * Sets download headers
+ * @param string $filename
+ */
+function download_send_headers($filename) {
+    // disable caching
+    $now = gmdate("D, d M Y H:i:s");
+    header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+    header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+    header("Last-Modified: {$now} GMT");
+
+    // force download  
+    header("Content-Type: application/force-download");
+    header("Content-Type: application/octet-stream");
+    header("Content-Type: application/download");
+
+    // disposition / encoding on response body
+    header("Content-Disposition: attachment;filename={$filename}");
+    header("Content-Transfer-Encoding: binary");
+}
+
+error_reporting(E_ALL);
 
 //$urls = $_POST['urls'];
 $urls = array('http://facebook.com/VasyaTheCat', 'http://facebook.com/johncena');
@@ -98,4 +121,10 @@ foreach ($urls as $url) {
     );
 }        
 
-echo json_encode(array('success' => true, 'data' => $res));
+$config = new ExporterConfig();
+$exporter = new Exporter($config);
+
+download_send_headers("facebook_data_" . date("Y-m-d") . ".csv");
+$exporter->export('php://output', $res);
+die();
+//echo json_encode(array('success' => true, 'data' => $res));
