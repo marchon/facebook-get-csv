@@ -1,5 +1,6 @@
 {
     "require": {
-        "respect/validation": "0.8.*"
+        "respect/validation": "0.8.*",
+        "goodby/csv": "*"
     }
 }
