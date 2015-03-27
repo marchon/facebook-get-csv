@@ -10,7 +10,7 @@ require_once "vendor/autoload.php";
  * Outputs an error of invalid URL
  */
 function outputError() {
-    echo json_encode(array('success' => false, 'error' => 'One or more URLs are invalid'));
+    echo 'One or more URLs are invalid';
     exit;
 }
 
@@ -90,8 +90,7 @@ function download_send_headers($filename) {
 
 error_reporting(E_ALL);
 
-//$urls = $_POST['urls'];
-$urls = array('http://facebook.com/VasyaTheCat', 'http://facebook.com/johncena');
+$urls = $_POST['urls'];
 
 // Validate URLs
 foreach ($urls as $url) {
@@ -130,4 +129,3 @@ $exporter = new Exporter($config);
 download_send_headers("facebook_data_" . date("Y-m-d") . ".csv");
 $exporter->export('php://output', $res);
 die();
-//echo json_encode(array('success' => true, 'data' => $res));
