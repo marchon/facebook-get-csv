@@ -60,9 +60,9 @@
             $("#facebook-form").validator();
         
             // Make sure there's protocol inserted in URL
-            $('#facebook-url').change(function() {
-                var url = $('#facebook-url').val();
-                $('#facebook-url').val(addProtocol(url)); 
+            $('input[name^=facebook-url]').change(function() {
+                var url = $(this).val();
+                $(this).val(addProtocol(url)); 
             });
             
         });
