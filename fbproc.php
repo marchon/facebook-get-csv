@@ -103,7 +103,7 @@ $res[] = array('Page URL', 'Page id', 'Page name', 'Rss feed URL');
 // Graph API URL depends on URL params
 foreach ($urls as $url) {
     $graphURL = getGraphUrl($url);
-    $graphJSON = file_get_contents($graphURL);
+    @$graphJSON = file_get_contents($graphURL);
     
     // is data found?
     if (!$graphJSON) {
