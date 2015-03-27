@@ -25,7 +25,7 @@
             
             <?php for ($i=1; $i<=$config['fieldsnum']; $i++) { ?>
                 <div class="form-group">
-                    <input class="form-control" type="text" id="facebook-url-<?= $i ?>" placeholder="Facebook URL" data-error="Please insert correct URL" pattern="^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})(\/[\d\w.?=]+)?$" required <?= ($i == 1) ? 'autofocus' : '' ?>/>
+                    <input class="form-control" name="facebook-url[]" type="text" id="facebook-url-<?= $i ?>" placeholder="Facebook URL" data-error="Please insert correct URL" pattern="^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})(\/[\d\w.?=]+)?$" required <?= ($i == 1) ? 'autofocus' : '' ?>/>
                     <span class="help-block with-errors"></span>
                 </div>
             <?php } ?>
@@ -58,14 +58,18 @@
             
             // Process form submission
             $("#facebook-form").validator().submit(function(event) {
-                var url = $("#facebook-url").val();
+                // Get all input fields
+                var urls = $('input[name^=facebook-url]').map(function(idx, elem) {
+                    return $(elem).val();
+                }).get();
+                
                 if (event.isDefaultPrevented()) {
                     // Nothing to do
                 } else {
                     $.ajax({
                         type: 'post',
                         dataType: 'json',
-                        data: {'url': url},
+                        data: {'urls': urls},
                         url: 'fbproc.php',
                         success: function(res) {
                             if (res.success == true) {
