@@ -90,7 +90,7 @@ function download_send_headers($filename) {
 
 error_reporting(E_ALL);
 
-$urls = $_POST['urls'];
+$urls = $_POST['facebook-url'];
 
 // Validate URLs
 foreach ($urls as $url) {
