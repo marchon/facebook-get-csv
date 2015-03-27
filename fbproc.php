@@ -5,7 +5,7 @@ use Respect\Validation\Validator as v;
 require_once "vendor/autoload.php";
 
 function outputError() {
-    echo json_encode(['success' => false, 'error' => 'Invalid URL']);
+    echo json_encode(array('success' => false, 'error' => 'Invalid URL'));
     exit;
 }
 
@@ -63,11 +63,11 @@ if (!$graphJSON) {
 // Parse json
 $graphData = json_decode($graphJSON);
 
-$res = [
+$res = array(
     'name'  => $graphData->name,
     'id'    => $graphData->id,
     'rss'   => "https://www.facebook.com/feeds/page.php?format=rss20&id={$graphData->id}",
     'page'  => $url,
-];
+);
     
-echo json_encode(['success' => true, 'data' => $res]);
+echo json_encode(array('success' => true, 'data' => $res));
