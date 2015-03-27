@@ -1,4 +1,4 @@
-<?php require_once('config.php'); ?>
+<?php $filedsNum = 2; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,10 +20,10 @@
 </head>
 <body>
     <div class="container">
-        <form class="form-main" id="facebook-form" data-toggle="validator" method="POST">
+        <form class="form-main" id="facebook-form" data-toggle="validator" method="POST" action='fbproc.php'>
             <h2 class="form-main-heading">Enter facebook URL to get data</h2>
             
-            <?php for ($i=1; $i<=$config['fieldsnum']; $i++) { ?>
+            <?php for ($i=1; $i<=$filedsNum; $i++) { ?>
                 <div class="form-group">
                     <input class="form-control" name="facebook-url[]" type="text" id="facebook-url-<?= $i ?>" placeholder="Facebook URL" data-error="Please insert correct URL" pattern="^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})(\/[\d\w.?=]+)?$" required <?= ($i == 1) ? 'autofocus' : '' ?>/>
                     <span class="help-block with-errors"></span>
@@ -57,40 +57,7 @@
             $('#result').hide();
             
             // Process form submission
-            $("#facebook-form").validator().submit(function(event) {
-                // Get all input fields
-                var urls = $('input[name^=facebook-url]').map(function(idx, elem) {
-                    return $(elem).val();
-                }).get();
-                
-                if (event.isDefaultPrevented()) {
-                    // Nothing to do
-                } else {
-                    $.ajax({
-                        type: 'post',
-                        dataType: 'json',
-                        data: {'urls': urls},
-                        url: 'fbproc.php',
-                        success: function(res) {
-                            if (res.success == true) {
-                                $('#result').show();
-                                $('#error-message').hide();
-                                
-                                // Set output text fields
-                                $('#fb-id').html("<mark>"+res.data['id']+"</mark>");
-                                $('#fb-name').html("<mark>"+res.data['name']+"</mark>");
-                                $('#fb-rss').html("<mark><a href='"+res.data['rss']+"'>"+res.data['rss']+"</a></mark>");
-                                $('#fb-page').html("<mark><a href='"+res.data['page']+"'>"+res.data['page']+"</a></mark>");
-                            } else {
-                                // Show error
-                                $('#result').hide();
-                                $('#error-message').html(res.error).show();
-                            }
-                        }
-                    });
-                    event.preventDefault();
-                }
-            });
+            $("#facebook-form").validator();
         
             // Make sure there's protocol inserted in URL
             $('#facebook-url').change(function() {
