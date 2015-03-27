@@ -1,3 +1,5 @@
+<?php require_once('config.php'); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +23,7 @@
         <form class="form-main" id="facebook-form" data-toggle="validator" method="POST">
             <h2 class="form-main-heading">Enter facebook URL to get data</h2>
             
-            <?php for ($i=1; $i<=2; $i++) { ?>
+            <?php for ($i=1; $i<=$config['fieldsnum']; $i++) { ?>
                 <div class="form-group">
                     <input class="form-control" type="text" id="facebook-url-<?= $i ?>" placeholder="Facebook URL" data-error="Please insert correct URL" pattern="^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})(\/[\d\w.?=]+)?$" required <?= ($i == 1) ? 'autofocus' : '' ?>/>
                     <span class="help-block with-errors"></span>
