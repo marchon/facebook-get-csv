@@ -94,7 +94,10 @@ $urls = $_POST['facebook-url'];
 
 // Validate URLs
 foreach ($urls as $url) {
-    validateUrl($url);
+    // If URL is set it needs to be validated, if it's blank, pass it
+    if (!empty($url)) {
+        validateUrl($url);
+    }
 }
 
 // Headers for spreadsheet
