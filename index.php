@@ -21,12 +21,10 @@
         <form class="form-main" id="facebook-form" data-toggle="validator" method="POST" action='fbproc.php'>
             <h2 class="form-main-heading">Enter facebook URL to get data</h2>
             
-            <?php for ($i=1; $i<=10; $i++) { ?>
-                <div class="form-group">
-                    <input class="form-control" name="facebook-url[]" type="text" id="facebook-url-<?= $i ?>" placeholder="Facebook URL" data-error="Please insert correct URL" pattern="^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})(\/[\d\w.?=]+)?$" <?= ($i == 1) ? 'autofocus' : '' ?>/>
-                    <span class="help-block with-errors"></span>
-                </div>
-            <?php } ?>
+            <div class="form-group">
+            <textarea class="form-control" rows="15" name="facebook-url" placeholder="Facebook URLs" autofocus required></textarea>
+            <span class="help-block with-errors"></span>
+            
             <button type="submit" class="btn btn-primary">Get info</button>
         </form>
         <br/>
@@ -57,21 +55,7 @@
             // Process form submission
             $("#facebook-form").validator();
         
-            // Make sure there's protocol inserted in URL
-            $('input[name^=facebook-url]').change(function() {
-                var url = $(this).val();
-                $(this).val(addProtocol(url)); 
-            });
-            
         });
-        
-        // Add 'http://' to the url if it misses that
-        function addProtocol(url) {
-            if (url.search(/^http[s]?\:\/\//) == -1) {
-                url = 'http://' + url;
-            }            
-            return url;
-        }
     </script>
 </body>
 </html>

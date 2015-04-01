@@ -61,7 +61,9 @@ function getGraphUrl($url) {
         // OK
         $graphURL .= '/'.$matches[1];
     } else {
-        $graphURL .= $parse['path'];
+        // Possibly there's pages/<name>/<id> type of a link
+        preg_match('/^\/pages\/\w+\/(\d+)/', $parse['path'], $matchesPath);
+        $graphURL .= (empty($matchesPath[1])) ? $parse['path'] : '/'.$matchesPath[1];
     }
     
     return $graphURL;
@@ -91,6 +93,8 @@ function download_send_headers($filename) {
 error_reporting(E_ALL);
 
 $urls = $_POST['facebook-url'];
+$urls = str_replace("\r\n", "\n", $urls);
+$urls = explode("\n", $urls);
 
 // Validate URLs
 foreach ($urls as $url) {
