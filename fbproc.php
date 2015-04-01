@@ -105,7 +105,7 @@ foreach ($urls as $url) {
 }
 
 // Headers for spreadsheet
-$res[] = array('Page URL', 'Page id', 'Page name', 'Rss feed URL');
+$res[] = array('Page Name', 'Page URL', 'ID', 'RSS Feed');
 
 // Graph API URL depends on URL params
 foreach ($urls as $url) {
@@ -123,9 +123,9 @@ foreach ($urls as $url) {
     $graphData = json_decode($graphJSON);
     
     $res[] = array(
+        $graphData->name,
         $url,
         $graphData->id,
-        $graphData->name,
         "https://www.facebook.com/feeds/page.php?format=rss20&id={$graphData->id}",
     );
 }        
